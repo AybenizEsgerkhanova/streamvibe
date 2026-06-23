@@ -84,8 +84,8 @@ spring.datasource.password=your_secure_password
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-▶️ Getting Started1.
- Prerequisites
+▶️ Getting Started
+1.Prerequisites
 Java 17 or higher installed.
 PostgreSQL installed and running.
 Git installed.
@@ -94,8 +94,15 @@ Git installed.
 Bash
 git clone [https://github.com/your-username/streamvibe.git](https://github.com/your-username/streamvibe.git) cd streamvibe
 3. Run the Application
-Using Gradle CLI:Bash./gradlew bootRun
-Using IntelliJ IDEA / Eclipse:Open the project as a Gradle project.Allow dependencies to resolve.Locate StreamvibeApplication.java and run it.The application will start on: http://localhost:8081
+Using Gradle CLI:
+Bash./gradlew bootRun
+Using IntelliJ IDEA / Eclipse:
+1.Open the project as a Gradle project.
+2.Allow dependencies to resolve.
+3.Locate StreamvibeApplication.java and run it.
+
+The application will start on: http://localhost:8081
+
 📡 Main API Endpoints
 
 🏠 Landing PageMethodEndpointDescription
