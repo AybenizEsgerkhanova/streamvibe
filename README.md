@@ -60,11 +60,14 @@ Client Request
 [ PostgreSQL ] ──> Persistent data storage.
 
 
-Entity: Maps Java objects to database tables.DTO (Data Transfer Object): Transfers data safely between layers without exposing DB models.Mapper: Handles conversion logic between Entities and DTOs.Config: Application and security configuration classes.📂 Project StructurePlaintextsrc/main/java/com/aybeniz/streamvibe
+Entity: Maps Java objects to database tables.
+DTO (Data Transfer Object): Transfers data safely between layers without exposing DB models.
+Mapper: Handles conversion logic between Entities and DTOs.
+
+📂 Project StructurePlaintextsrc/main/java/com/aybeniz/streamvibe
 ├── config/         # Application configurations (Swagger, Security, etc.)
 ├── controller/     # REST API endpoints
-├── dto/            
-│   ├── request/    # Incoming payload structures
+├── dto/              
 │   └── response/   # Outgoing payload structures
 ├── entity/         # JPA Domain models
 ├── mapper/         # Entity-DTO mapping logic
@@ -72,17 +75,26 @@ Entity: Maps Java objects to database tables.DTO (Data Transfer Object): Transfe
 └── service/        # Business logic implementation
 
 
-🗄 Database ConfigurationThe application uses PostgreSQL. Ensure your local PostgreSQL server is running and create a database named streamvibe.Update the src/main/resources/application.properties or application.yml file:Properties
+🗄 Database ConfigurationThe application uses PostgreSQL. Ensure your local PostgreSQL server is running and create a database named streamvibe.
+Update the src/main/resources/application.properties or application.yml file:Properties
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/streamvibe
 spring.datasource.username=postgres
 spring.datasource.password=your_secure_password
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-▶️ Getting Started1. PrerequisitesJava 17 or higher installed.PostgreSQL installed and running.Git installed.2.
-Clone the RepositoryBashgit clone [https://github.com/your-username/streamvibe.git](https://github.com/your-username/streamvibe.git)
-cd streamvibe
-3. Run the ApplicationUsing Gradle CLI:Bash./gradlew bootRun
+▶️ Getting Started1.
+ Prerequisites
+Java 17 or higher installed.
+PostgreSQL installed and running.
+Git installed.
+
+2.Clone the Repository
+Bash
+git clone [https://github.com/your-username/streamvibe.git](https://github.com/your-username/streamvibe.git) cd streamvibe
+3. Run the Application
+Using Gradle CLI:Bash./gradlew bootRun
 Using IntelliJ IDEA / Eclipse:Open the project as a Gradle project.Allow dependencies to resolve.Locate StreamvibeApplication.java and run it.The application will start on: http://localhost:8081
 📡 Main API Endpoints
 
