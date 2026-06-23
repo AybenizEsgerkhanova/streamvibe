@@ -318,10 +318,5 @@ Use Swagger to:
 
 **Aybəniz Əsgərxanova**
 
-Backend Developer | Java & Spring Boot Enthusiast
 
----
 
-## 📄 License
-
-This project is intended for educational and portfolio purposes.
