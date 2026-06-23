@@ -58,6 +58,8 @@ Client Request
       │
       ▼
 [ PostgreSQL ] ──> Persistent data storage.
+
+
 Entity: Maps Java objects to database tables.DTO (Data Transfer Object): Transfers data safely between layers without exposing DB models.Mapper: Handles conversion logic between Entities and DTOs.Config: Application and security configuration classes.📂 Project StructurePlaintextsrc/main/java/com/aybeniz/streamvibe
 ├── config/         # Application configurations (Swagger, Security, etc.)
 ├── controller/     # REST API endpoints
@@ -83,31 +85,26 @@ cd streamvibe
 3. Run the ApplicationUsing Gradle CLI:Bash./gradlew bootRun
 Using IntelliJ IDEA / Eclipse:Open the project as a Gradle project.Allow dependencies to resolve.Locate StreamvibeApplication.java and run it.The application will start on: http://localhost:8081
 📡 Main API Endpoints
+
 🏠 Landing PageMethodEndpointDescription
 GET/api/heroRetrieve hero slider content
 GET/api/genresGet all available genres
 GET/api/faqsRetrieve FAQ section data
 GET/api/plansGet subscription pricing plans
 GET/api/devicesList supported devices
+
 🎬 Movies & TV ShowsMethodEndpointDescription
 GET/api/content/heroFetch featured hero content
 GET/api/content/genresList available content genres
 GET/api/content/top-tenGet top 10 trending content
 GET/api/content Paginated content listing
+
 ℹ️ Content DetailsMethodEndpointDescription
 GET/api/content/{id}Get complete content metadata by ID
 GET/api/content/{id}/seasonsList seasons and episodes for a TV Show
 GET/api/content/{id}/reviewsFetch user reviews for specific content
+
 📖 API DocumentationExplore and test the APIs directly via Swagger UI. Once the application is running, navigate to:
 🔗 http://localhost:8081/swagger-ui/index.html
-🔮 Future Improvements
-[ ] Implement JWT-based Authentication
-[ ] Add Role-Based Access Control (RBAC)
-[ ] Watchlist & Favorites Management for Users
-[ ] Comprehensive User Profile Management
-[ ] Content Recommendation Engine
-[ ] Redis Caching for frequently accessed endpoints
-[ ] Containerize the application with Docker
-[ ] Implement Unit & Integration Tests (JUnit, Mockito)
-[ ] Setup CI/CD Pipeline (GitHub Actions)
+
 👩‍💻 AuthorAybəniz Əsgərxanova 
