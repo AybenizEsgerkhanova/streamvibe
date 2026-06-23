@@ -68,13 +68,46 @@ Entity: Maps Java objects to database tables.DTO (Data Transfer Object): Transfe
 ├── mapper/         # Entity-DTO mapping logic
 ├── repository/     # Spring Data JPA interfaces
 └── service/        # Business logic implementation
-🗄 Database ConfigurationThe application uses PostgreSQL. Ensure your local PostgreSQL server is running and create a database named streamvibe.Update the src/main/resources/application.properties or application.yml file:Propertiesspring.datasource.url=jdbc:postgresql://localhost:5432/streamvibe
+
+
+🗄 Database ConfigurationThe application uses PostgreSQL. Ensure your local PostgreSQL server is running and create a database named streamvibe.Update the src/main/resources/application.properties or application.yml file:Properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/streamvibe
 spring.datasource.username=postgres
 spring.datasource.password=your_secure_password
-
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
-▶️ Getting Started1. PrerequisitesJava 17 or higher installed.PostgreSQL installed and running.Git installed.2. Clone the RepositoryBashgit clone [https://github.com/your-username/streamvibe.git](https://github.com/your-username/streamvibe.git)
+
+▶️ Getting Started1. PrerequisitesJava 17 or higher installed.PostgreSQL installed and running.Git installed.2.
+Clone the RepositoryBashgit clone [https://github.com/your-username/streamvibe.git](https://github.com/your-username/streamvibe.git)
 cd streamvibe
 3. Run the ApplicationUsing Gradle CLI:Bash./gradlew bootRun
-Using IntelliJ IDEA / Eclipse:Open the project as a Gradle project.Allow dependencies to resolve.Locate StreamvibeApplication.java and run it.The application will start on: http://localhost:8081📡 Main API Endpoints🏠 Landing PageMethodEndpointDescriptionGET/api/heroRetrieve hero slider contentGET/api/genresGet all available genresGET/api/faqsRetrieve FAQ section dataGET/api/plansGet subscription pricing plansGET/api/devicesList supported devices🎬 Movies & TV ShowsMethodEndpointDescriptionGET/api/content/heroFetch featured hero contentGET/api/content/genresList available content genresGET/api/content/top-tenGet top 10 trending contentGET/api/contentPaginated content listingℹ️ Content DetailsMethodEndpointDescriptionGET/api/content/{id}Get complete content metadata by IDGET/api/content/{id}/seasonsList seasons and episodes for a TV ShowGET/api/content/{id}/reviewsFetch user reviews for specific content📖 API DocumentationExplore and test the APIs directly via Swagger UI. Once the application is running, navigate to:🔗 http://localhost:8081/swagger-ui/index.html🔮 Future Improvements[ ] Implement JWT-based Authentication[ ] Add Role-Based Access Control (RBAC)[ ] Watchlist & Favorites Management for Users[ ] Comprehensive User Profile Management[ ] Content Recommendation Engine[ ] Redis Caching for frequently accessed endpoints[ ] Containerize the application with Docker[ ] Implement Unit & Integration Tests (JUnit, Mockito)[ ] Setup CI/CD Pipeline (GitHub Actions)👩‍💻 AuthorAybəniz ƏsgərxanovaJava Backend Developer
+Using IntelliJ IDEA / Eclipse:Open the project as a Gradle project.Allow dependencies to resolve.Locate StreamvibeApplication.java and run it.The application will start on: http://localhost:8081
+📡 Main API Endpoints
+🏠 Landing PageMethodEndpointDescription
+GET/api/heroRetrieve hero slider content
+GET/api/genresGet all available genres
+GET/api/faqsRetrieve FAQ section data
+GET/api/plansGet subscription pricing plans
+GET/api/devicesList supported devices
+🎬 Movies & TV ShowsMethodEndpointDescription
+GET/api/content/heroFetch featured hero content
+GET/api/content/genresList available content genres
+GET/api/content/top-tenGet top 10 trending content
+GET/api/content Paginated content listing
+ℹ️ Content DetailsMethodEndpointDescription
+GET/api/content/{id}Get complete content metadata by ID
+GET/api/content/{id}/seasonsList seasons and episodes for a TV Show
+GET/api/content/{id}/reviewsFetch user reviews for specific content
+📖 API DocumentationExplore and test the APIs directly via Swagger UI. Once the application is running, navigate to:
+🔗 http://localhost:8081/swagger-ui/index.html
+🔮 Future Improvements
+[ ] Implement JWT-based Authentication
+[ ] Add Role-Based Access Control (RBAC)
+[ ] Watchlist & Favorites Management for Users
+[ ] Comprehensive User Profile Management
+[ ] Content Recommendation Engine
+[ ] Redis Caching for frequently accessed endpoints
+[ ] Containerize the application with Docker
+[ ] Implement Unit & Integration Tests (JUnit, Mockito)
+[ ] Setup CI/CD Pipeline (GitHub Actions)
+👩‍💻 AuthorAybəniz Əsgərxanova 
