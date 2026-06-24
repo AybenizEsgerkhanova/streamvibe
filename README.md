@@ -299,18 +299,6 @@ Use Swagger to:
 * View request/response schemas
 * Validate integrations
 
----
-
-## 🔮 Future Improvements
-
-* JWT Authentication & Authorization
-* User Management Module
-* Watchlist Feature
-* Favorites System
-* Search & Filtering
-* Recommendation Engine
-* Cloud Deployment (AWS/Docker)
-* CI/CD Pipeline
 
 ---
 
