@@ -1,14 +1,13 @@
 package com.aybeniz.streamvibe.service;
 
-import com.aybeniz.streamvibe.dto.response.ContentHeroResponse;
-import com.aybeniz.streamvibe.dto.response.ContentListResponse;
-import com.aybeniz.streamvibe.dto.response.GenreResponse;
-import com.aybeniz.streamvibe.dto.response.TopTenContentResponse;
+import com.aybeniz.streamvibe.dto.response.*;
 import com.aybeniz.streamvibe.entity.Content;
 import com.aybeniz.streamvibe.mapper.ContentMapper;
 import com.aybeniz.streamvibe.mapper.LandingMapper;
 import com.aybeniz.streamvibe.repository.ContentRepository;
 import com.aybeniz.streamvibe.repository.GenreRepository;
+import com.aybeniz.streamvibe.repository.ReviewRepository;
+import com.aybeniz.streamvibe.repository.SeasonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,8 @@ public class ContentService {
 
     private final ContentRepository contentRepository;
     private final GenreRepository genreRepository;
+    private final SeasonRepository seasonRepository;
+    private final ReviewRepository reviewRepository;
     private final ContentMapper contentMapper;
     private final LandingMapper landingMapper;
 
@@ -32,13 +33,7 @@ public class ContentService {
     }
 
     public List<GenreResponse> getGenresByType(String type) {
-        if (type == null || type.isBlank()) {
-            throw new IllegalArgumentException("Type parameter is required");
-        }
-
-        if (!type.equalsIgnoreCase("movie") && !type.equalsIgnoreCase("show")) {
-            throw new IllegalArgumentException("Type must be either movie or show");
-        }
+        validateType(type);
 
         return genreRepository.findByType(type.toLowerCase())
                 .stream()
@@ -68,6 +63,33 @@ public class ContentService {
                 )
                 .stream()
                 .map(contentMapper::toContentListResponse)
+                .toList();
+    }
+
+    public ContentDetailResponse getContentDetail(Integer id) {
+        Content content = contentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Content not found"));
+
+        return contentMapper.toDetailResponse(content);
+    }
+
+    public List<SeasonResponse> getSeasons(Integer id) {
+        contentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Content not found"));
+
+        return seasonRepository.findByContentIdOrderBySeasonNumberAsc(id)
+                .stream()
+                .map(contentMapper::toSeasonResponse)
+                .toList();
+    }
+
+    public List<ReviewResponse> getReviews(Integer id) {
+        contentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Content not found"));
+
+        return reviewRepository.findByContentIdOrderByCreatedAtDesc(id)
+                .stream()
+                .map(contentMapper::toReviewResponse)
                 .toList();
     }
 

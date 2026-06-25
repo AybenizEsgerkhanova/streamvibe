@@ -1,10 +1,6 @@
 package com.aybeniz.streamvibe.controller;
 
-import com.aybeniz.streamvibe.dto.response.ApiResponse;
-import com.aybeniz.streamvibe.dto.response.ContentHeroResponse;
-import com.aybeniz.streamvibe.dto.response.ContentListResponse;
-import com.aybeniz.streamvibe.dto.response.GenreResponse;
-import com.aybeniz.streamvibe.dto.response.TopTenContentResponse;
+import com.aybeniz.streamvibe.dto.response.*;
 import com.aybeniz.streamvibe.service.ContentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -66,5 +62,38 @@ public class ContentController {
             @RequestParam(defaultValue = "10") int limit
     ) {
         return ApiResponse.ok(contentService.getContent(type, filter, limit));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Get content details",
+            description = "Returns full content details by content id."
+    )
+    public ApiResponse<ContentDetailResponse> getContentDetail(
+            @PathVariable Integer id
+    ) {
+        return ApiResponse.ok(contentService.getContentDetail(id));
+    }
+
+    @GetMapping("/{id}/seasons")
+    @Operation(
+            summary = "Get seasons and episodes",
+            description = "Returns all seasons with episodes for the selected content."
+    )
+    public ApiResponse<List<SeasonResponse>> getSeasons(
+            @PathVariable Integer id
+    ) {
+        return ApiResponse.ok(contentService.getSeasons(id));
+    }
+
+    @GetMapping("/{id}/reviews")
+    @Operation(
+            summary = "Get content reviews",
+            description = "Returns reviews ordered by creation date descending."
+    )
+    public ApiResponse<List<ReviewResponse>> getReviews(
+            @PathVariable Integer id
+    ) {
+        return ApiResponse.ok(contentService.getReviews(id));
     }
 }
