@@ -1,12 +1,16 @@
 package com.aybeniz.streamvibe.controller;
 
 import com.aybeniz.streamvibe.dto.request.LoginRequest;
+import com.aybeniz.streamvibe.dto.request.RefreshTokenRequest;
 import com.aybeniz.streamvibe.dto.request.RegisterRequest;
 import com.aybeniz.streamvibe.dto.response.ApiResponse;
 import com.aybeniz.streamvibe.dto.response.AuthResponse;
+import com.aybeniz.streamvibe.dto.response.TokenResponse;
+import com.aybeniz.streamvibe.dto.response.UserResponse;
 import com.aybeniz.streamvibe.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +41,39 @@ public class AuthController {
 
         return ResponseEntity
                 .ok(ApiResponse.ok("Login successful", response));
+    }
+
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<ApiResponse<TokenResponse>> refreshToken(
+            @RequestBody RefreshTokenRequest request
+    ) {
+        TokenResponse response = authService.refreshToken(request);
+
+        return ResponseEntity.ok(
+                ApiResponse.ok("Token refreshed successfully", response)
+        );
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Object>> logout(
+            @RequestBody(required = false) RefreshTokenRequest request
+    ) {
+        authService.logout(request);
+
+        return ResponseEntity.ok(
+                ApiResponse.ok("Logged out successfully", null)
+        );
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<UserResponse>> me(HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("userId");
+
+        UserResponse response = authService.getMe(userId);
+
+        return ResponseEntity.ok(
+                ApiResponse.ok(response)
+        );
     }
 }

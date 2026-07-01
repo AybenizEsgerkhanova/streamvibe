@@ -1,6 +1,7 @@
 package com.aybeniz.streamvibe.service;
 
 import com.aybeniz.streamvibe.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,5 +67,23 @@ public class JwtService {
             case 'd' -> amount * 24 * 60 * 60;
             default -> 900;
         };
+    }
+    public Integer getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.get("userId", Integer.class);
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            getUserIdFromToken(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

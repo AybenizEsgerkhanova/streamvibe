@@ -1,13 +1,16 @@
 package com.aybeniz.streamvibe.service;
 
 import com.aybeniz.streamvibe.dto.request.LoginRequest;
+import com.aybeniz.streamvibe.dto.request.RefreshTokenRequest;
 import com.aybeniz.streamvibe.dto.request.RegisterRequest;
 import com.aybeniz.streamvibe.dto.response.AuthResponse;
+import com.aybeniz.streamvibe.dto.response.TokenResponse;
 import com.aybeniz.streamvibe.dto.response.UserResponse;
 import com.aybeniz.streamvibe.entity.RefreshToken;
 import com.aybeniz.streamvibe.entity.User;
 import com.aybeniz.streamvibe.repository.RefreshTokenRepository;
 import com.aybeniz.streamvibe.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -170,5 +173,79 @@ public class AuthService {
 
     private String safe(String value) {
         return value == null ? "" : value;
+    }
+
+
+    @Transactional
+    public TokenResponse refreshToken(RefreshTokenRequest request) {
+        if (request == null || safe(request.getRefreshToken()).trim().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Refresh token is required");
+        }
+
+        String oldTokenValue = request.getRefreshToken().trim();
+
+        RefreshToken oldToken = refreshTokenRepository.findByToken(oldTokenValue)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "Invalid refresh token"
+                ));
+
+        if (oldToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            refreshTokenRepository.delete(oldToken);
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Refresh token expired"
+            );
+        }
+
+        User user = oldToken.getUser();
+
+        if (Boolean.FALSE.equals(user.getActive())) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Account is deactivated"
+            );
+        }
+
+        refreshTokenRepository.delete(oldToken);
+
+        String newRefreshToken = createRefreshToken(user);
+        String newAccessToken = jwtService.generateAccessToken(user);
+
+        return new TokenResponse(
+                newAccessToken,
+                newRefreshToken,
+                jwtService.getAccessTokenExpiresInSeconds()
+        );
+    }
+
+    @Transactional
+    public void logout(RefreshTokenRequest request) {
+        if (request == null) {
+            return;
+        }
+
+        String refreshToken = request.getRefreshToken();
+
+        if (refreshToken == null || refreshToken.trim().isBlank()) {
+            return;
+        }
+
+        refreshTokenRepository.deleteByToken(refreshToken.trim());
+    }
+
+    public UserResponse getMe(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "Invalid token"
+                ));
+
+        return new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getCreatedAt()
+        );
     }
 }
