@@ -28,4 +28,12 @@ public class PricingPlan {
 
     @Column(name = "is_popular")
     private Boolean isPopular;
+
+    public BigDecimal getPrice(String billingCycle) {
+        return "yearly".equalsIgnoreCase(billingCycle)
+                ? priceYearly
+                : priceMonthly;
+    }
+
+
 }

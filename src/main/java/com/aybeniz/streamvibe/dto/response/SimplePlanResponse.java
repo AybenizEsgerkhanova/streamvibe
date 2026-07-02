@@ -1,27 +1,18 @@
 package com.aybeniz.streamvibe.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class PlanResponse {
+public class SimplePlanResponse {
+
     private Integer id;
     private String name;
     private String description;
     private BigDecimal price;
-
-    @JsonProperty("is_popular")
-    private Boolean isPopular;
-
-    @JsonProperty("billing_cycle")
-    private String billingCycle;
-
-    private List<PlanFeatureResponse> features;
 }

@@ -1,15 +1,9 @@
 package com.aybeniz.streamvibe.service;
 
-import com.aybeniz.streamvibe.dto.response.DeviceResponse;
-import com.aybeniz.streamvibe.dto.response.FaqResponse;
-import com.aybeniz.streamvibe.dto.response.GenreResponse;
-import com.aybeniz.streamvibe.dto.response.PlanResponse;
+import com.aybeniz.streamvibe.dto.response.*;
 import com.aybeniz.streamvibe.entity.Genre;
 import com.aybeniz.streamvibe.mapper.LandingMapper;
-import com.aybeniz.streamvibe.repository.DeviceRepository;
-import com.aybeniz.streamvibe.repository.FaqRepository;
-import com.aybeniz.streamvibe.repository.GenreRepository;
-import com.aybeniz.streamvibe.repository.PricingPlanRepository;
+import com.aybeniz.streamvibe.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +18,8 @@ public class LandingService {
     private final PricingPlanRepository pricingPlanRepository;
     private final DeviceRepository deviceRepository;
     private final LandingMapper landingMapper;
+    private final PlanFeatureRepository planFeatureRepository;
+
 
     public List<GenreResponse> getGenres(String type) {
         List<Genre> genres;
@@ -47,15 +43,33 @@ public class LandingService {
     }
 
     public List<PlanResponse> getPlans(String billing) {
+
         boolean yearly = billing != null
                 && billing.equalsIgnoreCase("yearly");
 
         return pricingPlanRepository.findAll()
                 .stream()
-                .map(plan -> landingMapper.toPlanResponse(plan, yearly))
+                .map(plan -> {
+
+                    List<PlanFeatureResponse> features =
+                            planFeatureRepository
+                                    .findByPlan_IdOrderByOrderNumberAsc(plan.getId())
+                                    .stream()
+                                    .map(feature -> new PlanFeatureResponse(
+                                            feature.getFeatureName(),
+                                            feature.getFeatureValue(),
+                                            feature.getOrderNumber()
+                                    ))
+                                    .toList();
+
+                    return landingMapper.toPlanResponse(
+                            plan,
+                            yearly,
+                            features
+                    );
+                })
                 .toList();
     }
-
     public List<DeviceResponse> getDevices() {
         return deviceRepository.findAll()
                 .stream()

@@ -1,11 +1,10 @@
 package com.aybeniz.streamvibe.mapper;
 
-import com.aybeniz.streamvibe.dto.response.DeviceResponse;
-import com.aybeniz.streamvibe.dto.response.FaqResponse;
-import com.aybeniz.streamvibe.dto.response.GenreResponse;
-import com.aybeniz.streamvibe.dto.response.PlanResponse;
+import com.aybeniz.streamvibe.dto.response.*;
 import com.aybeniz.streamvibe.entity.*;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class LandingMapper {
@@ -32,13 +31,19 @@ public class LandingMapper {
         );
     }
 
-    public PlanResponse toPlanResponse(PricingPlan plan, boolean yearly) {
+    public PlanResponse toPlanResponse(
+            PricingPlan plan,
+            boolean yearly,
+            List<PlanFeatureResponse> features
+    ) {
         return new PlanResponse(
                 plan.getId(),
                 plan.getName(),
                 plan.getDescription(),
                 yearly ? plan.getPriceYearly() : plan.getPriceMonthly(),
-                plan.getIsPopular()
+                plan.getIsPopular(),
+                yearly ? "yearly" : "monthly",
+                features
         );
     }
 

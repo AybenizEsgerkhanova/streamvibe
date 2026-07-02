@@ -18,14 +18,17 @@ import java.io.IOException;
 public class AuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
 
-        return !path.equals("/api/auth/me");
+        return !(
+                path.equals("/api/auth/me")
+                        || path.equals("/api/subscriptions/subscribe")
+                        || path.equals("/api/subscriptions/my")
+                        || path.equals("/api/subscriptions/cancel")
+        );
     }
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -74,4 +77,6 @@ public class AuthFilter extends OncePerRequestFilter {
                 }
                 """.formatted(message));
     }
+
+
 }
